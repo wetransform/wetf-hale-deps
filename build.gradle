@@ -1,0 +1,57 @@
+buildscript {
+    repositories {
+		mavenLocal()
+		mavenCentral()
+    }
+    dependencies {
+        classpath 'org.standardout:bnd-platform:0.3-SNAPSHOT' // bug in 0.2
+    }
+}
+
+apply plugin: 'platform'
+
+defaultTasks 'clean', 'updateSiteZip'
+
+task wrapper(type: Wrapper) {
+	gradleVersion = '1.11'
+}
+
+repositories {
+	mavenCentral()
+	maven {
+		url 'http://oss.sonatype.org/content/repositories/snapshots/'
+	}
+}
+
+ext {
+	scalaVersion = '2.10'
+}
+
+configurations {
+	platform {
+		// exclude Scala (provided through other means)
+		exclude group: 'org.scala-lang', module: 'scala-library'
+	}
+}
+
+dependencies {
+	// secure social
+	platform group: "ws.securesocial", name: "securesocial_$scalaVersion", version: "master-SNAPSHOT", {
+		// exclude anything play related (we only depend on model classes)
+		exclude group: 'com.typesafe.play'
+		exclude group: 'com.typesafe'
+	}
+	
+	// slick 2
+	platform group: "com.typesafe.slick", name: "slick_$scalaVersion", version: "2.0.1"
+	
+	// needed in addition to joda-time as otherwise Scala will complain about missing constructors (e.g. in DateTime)
+	platform 'org.joda:joda-convert:1.4'
+}
+
+platform {
+	bnd group: "ws.securesocial", name: "securesocial_$scalaVersion", {
+		// exclude anything play related (we only depend on model classes)
+		instruction 'Export-Package', "securesocial.core.*;version=$version"
+	}
+}
