@@ -51,6 +51,9 @@ dependencies {
 	
 	// needed in addition to joda-time as otherwise Scala will complain about missing constructors (e.g. in DateTime)
 	platform 'org.joda:joda-convert:1.4'
+	
+	// data sources
+	platform 'commons-dbcp:commons-dbcp:1.4'
 }
 
 platform {
@@ -61,6 +64,14 @@ platform {
 	
 	bnd group: "com.typesafe.slick", name: "slick_$scalaVersion", {
 		// slick must be able to access the database drivers (uses Class.forName)
+		
+		// add optional dependency for h2 database
+		//TODO postgres
+		instruction 'Require-Bundle', 'org.h2;resolution:=optional'
+	}
+	
+	bnd 'commons-dbcp:commons-dbcp', {
+		// dbcp must be able to access database drivers
 		
 		// add optional dependency for h2 database
 		//TODO postgres
