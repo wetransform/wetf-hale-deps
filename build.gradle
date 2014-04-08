@@ -57,24 +57,27 @@ dependencies {
 }
 
 platform {
+	// generate package imports w/ version numbers
+	determineImportVersions = true
+	
 	bnd group: "ws.securesocial", name: "securesocial_$scalaVersion", {
 		// exclude anything play related (we only depend on model classes)
 		instruction 'Export-Package', "securesocial.core.*;version=$version"
+		//XXX specify version for SNAPSHOT - remove when switching to release
+		version = '2.1.4.SNAPSHOT'
 	}
+
+	// JDBC drivers	
+	def jdbcBundles = ['org.h2', 'org.postgresql.jdbc4']
+	def requireJdbc = jdbcBundles.collect{ it + ';resolution:=optional' }.join(',')
 	
 	bnd group: "com.typesafe.slick", name: "slick_$scalaVersion", {
 		// slick must be able to access the database drivers (uses Class.forName)
-		
-		// add optional dependency for h2 database
-		//TODO postgres
-		instruction 'Require-Bundle', 'org.h2;resolution:=optional'
+		instruction 'Require-Bundle', requireJdbc
 	}
 	
 	bnd 'commons-dbcp:commons-dbcp', {
 		// dbcp must be able to access database drivers
-		
-		// add optional dependency for h2 database
-		//TODO postgres
-		instruction 'Require-Bundle', 'org.h2;resolution:=optional'
+		instruction 'Require-Bundle', requireJdbc
 	}
 }
