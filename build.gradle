@@ -1,10 +1,10 @@
 buildscript {
     repositories {
-		mavenLocal()
+		// mavenLocal()
 		mavenCentral()
     }
     dependencies {
-        classpath 'org.standardout:bnd-platform:0.3-SNAPSHOT' // bug in 0.2
+        classpath 'org.standardout:bnd-platform:0.3'
     }
 }
 
