@@ -1,10 +1,10 @@
 buildscript {
     repositories {
-		// mavenLocal()
+		mavenLocal()
 		mavenCentral()
     }
     dependencies {
-        classpath 'org.standardout:bnd-platform:0.3'
+        classpath 'org.standardout:bnd-platform:0.4-SNAPSHOT'
     }
 }
 
@@ -54,6 +54,9 @@ dependencies {
 	
 	// data sources
 	platform 'commons-dbcp:commons-dbcp:1.4'
+	
+	// JGit
+	platform group: 'org.eclipse.jgit', name: 'org.eclipse.jgit', version: '3.2.0.201312181205-r'
 }
 
 platform {
@@ -66,9 +69,13 @@ platform {
 		//XXX specify version for SNAPSHOT - remove when switching to release
 		version = '2.1.4.SNAPSHOT'
 	}
+	
+	bnd group: 'com.h2database', name: 'h2', {
+		optionalImport 'org.osgi.service.jdbc'
+	}
 
 	// JDBC drivers	
-	def jdbcBundles = ['org.h2', 'org.postgresql.jdbc4']
+	def jdbcBundles = ['org.h2', 'org.postgresql.jdbc']
 	def requireJdbc = jdbcBundles.collect{ it + ';resolution:=optional' }.join(',')
 	
 	bnd group: "com.typesafe.slick", name: "slick_$scalaVersion", {
