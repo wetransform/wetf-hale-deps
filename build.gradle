@@ -23,10 +23,14 @@ repositories {
 	maven {
 		url 'http://oss.sonatype.org/content/repositories/snapshots/'
 	}
+	maven {
+		url 'http://repo.typesafe.com/typesafe/maven-releases'
+	}
 }
 
 ext {
 	scalaVersion = '2.10'
+	playVersion = '2.2.3'
 	jgitVersion = '3.2.0.201312181205-r'
 }
 
@@ -44,6 +48,9 @@ dependencies {
 		exclude group: 'com.typesafe.play'
 		exclude group: 'com.typesafe'
 	}
+
+	// play Json API
+	platform group: "com.typesafe.play", name: "play-json_$scalaVersion", version: playVersion
 	
 	// slick 2
 	platform group: "com.typesafe.slick", name: "slick_$scalaVersion", version: "2.0.1"
