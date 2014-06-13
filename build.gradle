@@ -64,6 +64,9 @@ dependencies {
 	// data sources
 	platform 'commons-dbcp:commons-dbcp:1.4'
 	
+	// staxon
+	platform 'de.odysseus.staxon:staxon:1.3'
+	
 	// JGit
 	platform group: 'org.eclipse.jgit', name: 'org.eclipse.jgit', version: jgitVersion 
 	platform group: 'org.eclipse.jgit', name: 'org.eclipse.jgit.java7', version: jgitVersion
