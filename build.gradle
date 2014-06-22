@@ -2,10 +2,13 @@ buildscript {
     repositories {
 		mavenLocal()
 		mavenCentral()
+		maven {
+			url 'http://oss.sonatype.org/content/repositories/snapshots/'
+		}
     }
     dependencies {
-        classpath 'org.standardout:bnd-platform:1.0'
-	classpath 'org.standardout:gradle-versioneye-plugin:0.1.1'
+        classpath 'org.standardout:bnd-platform:1.1-SNAPSHOT'
+	classpath 'org.standardout:gradle-versioneye-plugin:0.2-SNAPSHOT'
     }
 }
 
