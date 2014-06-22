@@ -105,8 +105,4 @@ platform {
 		// dbcp must be able to access database drivers
 		instruction 'Require-Bundle', requireJdbc
 	}
-
-	bnd group: 'org.scala-lang', name: 'scala-reflect', {
-		// workaround for bnd-platform bug - version referencing the plugin from the feature is not correct
-	}
 }
