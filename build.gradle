@@ -48,7 +48,7 @@ configurations {
 
 dependencies {
 	// secure social
-	platform group: "ws.securesocial", name: "securesocial_$scalaVersion", version: "2.1.x-SNAPSHOT", {
+	platform group: "ws.securesocial", name: "securesocial_$scalaVersion", version: "2.1.4", {
 		// exclude anything play related (we only depend on model classes)
 		exclude group: 'com.typesafe.play'
 		exclude group: 'com.typesafe'
@@ -86,8 +86,6 @@ platform {
 		instruction 'Export-Package', "securesocial.core.*;version=$version"
 		// make play related imports optional
 		optionalImport 'play.*', 'com.typesafe.plugin', 'views.*'
-		//XXX specify version for SNAPSHOT - remove when switching to release
-		version = '2.1.4.SNAPSHOT'
 	}
 	
 	bnd group: 'com.h2database', name: 'h2', {
