@@ -7,13 +7,14 @@ buildscript {
 		}
     }
     dependencies {
-        classpath 'org.standardout:bnd-platform:1.1-SNAPSHOT'
-	classpath 'org.standardout:gradle-versioneye-plugin:0.2-SNAPSHOT'
+        classpath 'org.standardout:bnd-platform:1.2.0'
+		classpath 'org.standardout:gradle-versioneye-plugin:1.0.0'
+		classpath 'org.codehaus.groovy:groovy-backports-compat23:2.3+'
     }
 }
 
-apply plugin: 'platform'
-apply plugin: 'versioneye'
+apply plugin: 'org.standardout.bnd-platform'
+apply plugin: 'org.standardout.versioneye'
 
 defaultTasks 'clean', 'updateSiteZip'
 
