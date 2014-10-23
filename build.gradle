@@ -86,6 +86,9 @@ dependencies {
 	// JGit
 	platform group: 'org.eclipse.jgit', name: 'org.eclipse.jgit', version: jgitVersion 
 	platform group: 'org.eclipse.jgit', name: 'org.eclipse.jgit.java7', version: jgitVersion
+	
+	// Akka
+	platform group: 'com.typesafe.akka', name: "akka-osgi_$scalaVersion", version: '2.3.6'
 }
 
 platform {
