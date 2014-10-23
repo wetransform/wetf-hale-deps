@@ -89,6 +89,9 @@ dependencies {
 	
 	// Akka
 	platform group: 'com.typesafe.akka', name: "akka-osgi_$scalaVersion", version: '2.3.6'
+	
+	// Commons Email
+	platform 'org.apache.commons:commons-email:1.3.3'
 }
 
 platform {
