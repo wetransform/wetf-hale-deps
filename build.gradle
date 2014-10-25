@@ -46,6 +46,11 @@ configurations {
 		exclude group: 'org.scala-lang', module: 'scala-library'
 		// exclude slf4-api (causes conflict (wtf!) with newer version in HALE platform)
 		exclude group: 'org.slf4j', module: 'slf4j-api'
+		
+		// in Akka 2.2 akka-osgi contains akka-actor (and depends on it)
+		// exclude akka-actor to prevent package uses conflicts
+		// XXX remove if switching to 2.3 or higher 
+		exclude group: 'com.typesafe.akka', module: "akka-actor_$scalaVersion" as String
 	}
 }
 
