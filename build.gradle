@@ -46,10 +46,10 @@ configurations {
 		exclude group: 'org.scala-lang', module: 'scala-library'
 		// exclude slf4-api (causes conflict (wtf!) with newer version in HALE platform)
 		exclude group: 'org.slf4j', module: 'slf4j-api'
-		
+
 		// in Akka 2.2 akka-osgi contains akka-actor (and depends on it)
 		// exclude akka-actor to prevent package uses conflicts
-		// XXX remove if switching to 2.3 or higher 
+		// XXX remove if switching to 2.3 or higher
 		exclude group: 'com.typesafe.akka', module: "akka-actor_$scalaVersion" as String
 	}
 }
@@ -61,46 +61,51 @@ dependencies {
 		exclude group: 'com.typesafe.play'
 		exclude group: 'com.typesafe'
 	}
-	
+
 	// newman
 	//XXX to many dependencies for my taste (though it is planned for it to be split in modules)
 	//platform group: "com.stackmob", name: "newman_$scalaVersion", version: "1.3.5"
-	
+
 	// Async Http Client
 	platform 'com.ning:async-http-client:1.8.13'
-	
+
 	// Scala Logging
-	platform group: "com.typesafe.scala-logging", name: "scala-logging-slf4j_$scalaVersion", version: scalaLoggingVersion
+	// XXX don't use scala-logging as it (even version 2) does not work reliable
+	// with Scala 2.10 (see https://github.com/typesafehub/scala-logging/issues/16)
+	// platform group: "com.typesafe.scala-logging", name: "scala-logging-slf4j_$scalaVersion", version: scalaLoggingVersion
+
+	// Grizzled SLF4J
+	platform  group: 'org.clapper', name: "grizzled-slf4j_$scalaVersion", version: '1.0.2'
 
 	// play Json API
 	platform group: "com.typesafe.play", name: "play-json_$scalaVersion", version: playVersion
-	
+
 	// slick 2
 	platform group: "com.typesafe.slick", name: "slick_$scalaVersion", version: "2.0.1"
-	
+
 	// H2 database for tests
 	platform group: 'com.h2database', name: 'h2', version: '1.3.175'
-	
+
 	// needed in addition to joda-time as otherwise Scala will complain about missing constructors (e.g. in DateTime)
 	platform 'org.joda:joda-convert:1.4'
-	
+
 	// data sources
 	platform 'commons-dbcp:commons-dbcp:1.4'
-	
+
 	// staxon
 	platform 'de.odysseus.staxon:staxon:1.3'
-	
+
 	// JGit
-	platform group: 'org.eclipse.jgit', name: 'org.eclipse.jgit', version: jgitVersion 
+	platform group: 'org.eclipse.jgit', name: 'org.eclipse.jgit', version: jgitVersion
 	platform group: 'org.eclipse.jgit', name: 'org.eclipse.jgit.java7', version: jgitVersion
-	
+
 	// Akka
 	platform group: 'com.typesafe.akka', name: "akka-osgi_$scalaVersion", version: akkaVersion
 	platform group: 'com.typesafe.akka', name: "akka-testkit_$scalaVersion", version: akkaVersion
-	
+
 	// Commons Email
 	platform 'org.apache.commons:commons-email:1.3.3'
-	
+
 	// Twirl API
 	platform group: 'com.typesafe.play', name: "twirl-api_$scalaVersion", version: '1.0.2'
 }
@@ -108,27 +113,27 @@ dependencies {
 platform {
 	// generate package imports w/ version numbers
 	determineImportVersions = true
-	
+
 	bnd group: "ws.securesocial", name: "securesocial_$scalaVersion", {
 		// exclude anything play related (we only depend on model classes)
 		instruction 'Export-Package', "securesocial.core.*;version=$version"
 		// make play related imports optional
 		optionalImport 'play.*', 'com.typesafe.plugin', 'views.*'
 	}
-	
+
 	bnd group: 'com.h2database', name: 'h2', {
 		optionalImport 'org.osgi.service.jdbc'
 	}
 
-	// JDBC drivers	
+	// JDBC drivers
 	def jdbcBundles = ['org.h2', 'org.postgresql.jdbc']
 	def requireJdbc = jdbcBundles.collect{ it + ';resolution:=optional' }.join(',')
-	
+
 	bnd group: "com.typesafe.slick", name: "slick_$scalaVersion", {
 		// slick must be able to access the database drivers (uses Class.forName)
 		instruction 'Require-Bundle', requireJdbc
 	}
-	
+
 	bnd 'commons-dbcp:commons-dbcp', {
 		// dbcp must be able to access database drivers
 		instruction 'Require-Bundle', requireJdbc
