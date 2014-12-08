@@ -99,14 +99,6 @@ dependencies {
 	platform group: 'org.eclipse.jgit', name: 'org.eclipse.jgit', version: jgitVersion
 	platform group: 'org.eclipse.jgit', name: 'org.eclipse.jgit.java7', version: jgitVersion
 
-	// Akka
-	platform group: 'com.typesafe.akka', name: "akka-osgi_$scalaVersion", version: akkaVersion
-	platform group: 'com.typesafe.akka', name: "akka-testkit_$scalaVersion", version: akkaVersion
-
-	// Typesafe config
-	// explicit dependency to update version to at least 1.2.1 (contains needed fix https://github.com/typesafehub/config/pull/147)
-	platform group: 'com.typesafe', name: 'config', version: '1.2.1'
-
 	// Commons Email
 	platform 'org.apache.commons:commons-email:1.3.3'
 
@@ -141,5 +133,23 @@ platform {
 	bnd 'commons-dbcp:commons-dbcp', {
 		// dbcp must be able to access database drivers
 		instruction 'Require-Bundle', requireJdbc
+	}
+
+	// Typesafe config
+	// explicit dependency to update version to at least 1.2.1 (contains needed fix https://github.com/typesafehub/config/pull/147)
+	bundle group: 'com.typesafe', name: 'config', version: '1.2.1'
+
+	// Akka
+	bundle group: 'com.typesafe.akka', name: "akka-osgi_$scalaVersion", version: akkaVersion, {
+		bnd {
+			// allow using fixed version of config
+			prependImport 'com.typesafe.config;version=1.2.1'
+		}
+	}
+	bundle group: 'com.typesafe.akka', name: "akka-testkit_$scalaVersion", version: akkaVersion, {
+		bnd {
+			// allow using fixed version of config
+			prependImport 'com.typesafe.config;version=1.2.1'
+		}
 	}
 }
