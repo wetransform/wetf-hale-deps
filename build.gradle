@@ -105,8 +105,11 @@ dependencies {
 	// Twirl API
 	platform group: 'com.typesafe.play', name: "twirl-api_$scalaVersion", version: '1.0.2'
 	
-	// Jackson JAXB Module
-	platform group: 'com.fasterxml.jackson.module', name: 'jackson-module-jaxb-annotations', version: '2.4.0'
+	// Jackson JAXB Module (nice approach but does not support JAXBElement)
+	// platform group: 'com.fasterxml.jackson.module', name: 'jackson-module-jaxb-annotations', version: '2.4.0'
+	
+	// EclipseLink MOXy
+	platform 'org.eclipse.persistence:org.eclipse.persistence.moxy:2.5.2'
 }
 
 platform {
