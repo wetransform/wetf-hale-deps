@@ -104,6 +104,9 @@ dependencies {
 
 	// Twirl API
 	platform group: 'com.typesafe.play', name: "twirl-api_$scalaVersion", version: '1.0.2'
+	
+	// Jackson JAXB Module
+	platform group: 'com.fasterxml.jackson.module', name: 'jackson-module-jaxb-annotations', version: '2.4.0'
 }
 
 platform {
