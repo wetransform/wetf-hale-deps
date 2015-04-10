@@ -44,8 +44,11 @@ configurations {
 	platform {
 		// exclude Scala (provided through other means)
 		exclude group: 'org.scala-lang', module: 'scala-library'
+		
 		// exclude slf4-api (causes conflict (wtf!) with newer version in HALE platform)
 		exclude group: 'org.slf4j', module: 'slf4j-api'
+		// don't want any slf4j-log4j
+		exclude group: 'org.slf4j', module: 'slf4j-log4j12'
 
 		// in Akka 2.2 akka-osgi contains akka-actor (and depends on it)
 		// exclude akka-actor to prevent package uses conflicts
@@ -156,6 +159,18 @@ platform {
 		bnd {
 			// allow using fixed version of config
 			prependImport 'com.typesafe.config;version=1.2.1'
+		}
+	}
+	
+	// extJWNL
+	merge {
+		bundle group: 'net.sf.extjwnl', name: 'extjwnl', version: '1.8.0'
+		bundle group: 'net.sf.extjwnl', name: 'extjwnl-data-wn31', version: '1.2'
+		
+		bnd {
+			symbolicName = 'net.sf.extjwnl'
+			bundleName = 'extJWNL with default resource'
+			version = '1.8.0.wn31-12'
 		}
 	}
 }
